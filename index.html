@@ -578,12 +578,14 @@
       background: #fff;
       border-radius: 20px;
       padding: 28px;
-      width: 100%;
+      width: calc(100% - 32px);
       max-width: 480px;
       box-shadow: 0 24px 60px rgba(0,0,0,0.2);
       animation: modalIn 0.25s ease;
       max-height: 90vh;
       overflow-y: auto;
+      overflow-x: hidden;
+      box-sizing: border-box;
     }
 
     @keyframes modalIn {
@@ -623,11 +625,25 @@
 
     /* New category form inside modal */
     .cat-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .cat-form-row {
       display: grid;
-      grid-template-columns: 1fr 1fr 80px;
+      grid-template-columns: 80px 1fr;
       gap: 10px;
       align-items: end;
+    }
+
+    .cat-form-bottom {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 10px;
       margin-bottom: 20px;
+      align-items: end;
     }
 
     .cat-form input[type="color"] {
@@ -928,11 +944,11 @@
         <div class="section-label" data-i18n="language">Language / Bahasa</div>
         <div class="lang-toggle">
           <button class="lang-btn" id="langBtnID" onclick="setLang('id')">
-            <span class="lang-flag">🇮🇩</span>
+            <span class="lang-flag">ID</span>
             <span class="lang-name">Indonesia</span>
           </button>
           <button class="lang-btn" id="langBtnEN" onclick="setLang('en')">
-            <span class="lang-flag">🇬🇧</span>
+            <span class="lang-flag">ENG</span>
             <span class="lang-name">English</span>
           </button>
         </div>
@@ -963,27 +979,36 @@
   <div class="modal-overlay" id="catModal">
     <div class="modal">
       <div class="modal-header">
-        <h3>🏷️ <span data-i18n="manageCategories">Manage Categories</span></h3>
+        <h3>🏷️ <span data-i18n="manageCategories">Custom Categories</span></h3>
         <button class="modal-close" onclick="closeCatModal()">✕</button>
       </div>
 
       <!-- Add new category -->
       <div class="section-label" data-i18n="addNewCategory">Add New Category</div>
       <div class="cat-form">
-        <div class="form-group" style="margin:0">
-          <label data-i18n="emoji">Emoji</label>
-          <input type="text" id="newCatEmoji" data-i18n-placeholder="emojiPlaceholder" placeholder="e.g. 🏠" maxlength="4" style="text-align:center;font-size:1.3rem" />
+        <!-- Row: Emoji (kecil) + Nama (lebar) -->
+        <div class="cat-form-row">
+          <div class="form-group" style="margin:0">
+            <label data-i18n="emoji">Emoji</label>
+            <input type="text" id="newCatEmoji" data-i18n-placeholder="emojiPlaceholder" placeholder="🏠" maxlength="4" style="text-align:center;font-size:1.3rem" />
+          </div>
+          <div class="form-group" style="margin:0">
+            <label data-i18n="name">Name</label>
+            <input type="text" id="newCatName" data-i18n-placeholder="namePlaceholder" placeholder="e.g. Rent" maxlength="20" />
+          </div>
         </div>
-        <div class="form-group" style="margin:0">
-          <label data-i18n="name">Name</label>
-          <input type="text" id="newCatName" data-i18n-placeholder="namePlaceholder" placeholder="e.g. Rent" maxlength="20" />
-        </div>
+      </div>
+      <!-- Row: Warna + Tombol Add -->
+      <div class="cat-form-bottom">
         <div class="form-group" style="margin:0">
           <label data-i18n="color">Color</label>
           <input type="color" id="newCatColor" value="#3b82f6" />
         </div>
+        <div class="form-group" style="margin:0">
+          <label style="visibility:hidden">-</label>
+          <button class="btn-cat-add" onclick="addCustomCategory()" data-i18n="addCategory">➕ Add</button>
+        </div>
       </div>
-      <button class="btn-cat-add" onclick="addCustomCategory()" style="width:100%;margin-bottom:4px" data-i18n="addCategory">➕ Add Category</button>
 
       <hr class="modal-divider" />
 
